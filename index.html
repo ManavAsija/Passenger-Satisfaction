@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+  
+<div class="jumbotron text-center">
+  <h1>Airline Flight Satisfaction</h1>
+  <p>Prediction by Random Forest with 96% Precision</p>
+</div>
+
+<!-- Use navbar just as a visual divider -->
+<nav class="navbar navbar-expand-sm navbar-dark">
+</nav>
+ 
+<div class="container" style="margin-top:50px">
+  <div class="row">
+    <div class="col-sm-4">
+      <h2>About</h2>
+      This is a Random Forest machine learning model that has been trained on over 100,000 datasets to achieve a precision of 96%.
+      Adjust the airline performance ratings, and the passenger's probability of satisfaction will appear on the right.
+    </div>
+    <form class="app" method="POST" action="/predict">
+        <div id="Prediction"> Prediction : {{predict}}
+
+        </div>
+    
+      <h3>Airline Performance Ratings</h3>
+
+      <br>
+      Customer Type (First-Time:0, Returning:1) = <span id="customer_type_value">1</span> 
+      <br>
+      <input type="range" min="0" max="1" step="1" value="0" id="customer_type" onchange="moveSlider()">     
+
+      <br>
+      Class Type (Business:0, Economy:1) = <span id="class_type_value">1</span> 
+      <br>
+      <input type="range" min="0" max="1" step="1" value="0" id="class_type" onchange="moveSlider()">    
+      
+      <br>
+      Travel Type (Business:0, Personal:1) = <span id="travel_type_value">1</span> 
+      <br>
+      <input type="range" min="0" max="1" step="1" value="0" id="travel_type" onchange="moveSlider()">       
+
+      <br>
+      Inflight Wifi Service = <span id="inflight_wifi_service_value">5</span> 
+      <br>
+      <input type="range" min="1" max="5" step="1" value="3" id="inflight_wifi_service" onchange="moveSlider()">
+
+      <br>
+      Ease of Online Booking = <span id="ease_of_online_booking_value">5</span> 
+      <br>
+      <input type="range" min="1" max="5" step="1" value="3" id="ease_of_online_booking" onchange="moveSlider()">
+
+      <br>
+      Food and Drink = <span id="food_and_drink_value">1</span> 
+      <br>
+      <input type="range" min="1" max="5" step="1" value="3" id="food_and_drink" onchange="moveSlider()">
+
+      <br>
+      Online Boarding = <span id="online_boarding_value">1</span> 
+      <br>
+      <input type="range" min="1" max="5" step="1" value="3" id="online_boarding" onchange="moveSlider()">
+
+      <br>
+      Seat Comfort = <span id="seat_comfort_value">5</span> 
+      <br>
+      <input type="range" min="1" max="5" step="1" value="3" id="seat_comfort" onchange="moveSlider()">     
+      
+      <br>
+      Inflight Entertainment = <span id="inflight_entertainment_value">1</span> 
+      <br>
+      <input type="range" min="1" max="5" step="1" value="3" id="inflight_entertainment" onchange="moveSlider()">       
+      
+      <br>
+      On-board Service = <span id="onboard_service_value">1</span> 
+      <br>
+      <input type="range" min="1" max="5" step="1" value="3" id="onboard_service" onchange="moveSlider()">    
+      
+      <br>
+      Leg Room = <span id="leg_room_value">5</span> 
+      <br>
+      <input type="range" min="1" max="5" step="1" value="3" id="leg_room" onchange="moveSlider()">     
+
+      <br>
+      Baggage Handling = <span id="baggage_handling_value">1</span> 
+      <br>
+      <input type="range" min="1" max="5" step="1" value="3" id="baggage_handling" onchange="moveSlider()">   
+      
+      <br>
+      Checkin Service = <span id="checkin_service_value">3</span> 
+      <br>
+      <input type="range" min="1" max="5" step="1" value="3" id="checkin_service" onchange="moveSlider()">         
+      
+      <br>
+      Inflight Service = <span id="inflight_service_value">3</span> 
+      <br>
+      <input type="range" min="1" max="5" step="1" value="3" id="inflight_service" onchange="moveSlider()">    
+      
+      <br>
+      Cleanliness = <span id="cleanliness_value">5</span> 
+      <br>
+      <input type="range" min="1" max="5" step="1" value="3" id="cleanliness" onchange="moveSlider()">    
+
+
+    </form>
+        <br><br> {{ prediction_text }}
+    <div class="col-sm-4">
+      <!-- stores the most likely result -->
+      <div class="row">
+        <div id="results">The passenger is more likely to be Satisfied
+                    with probability 85%</div>
+      </div>
+      <br>
+      <!-- shows the list of all results -->
+      <div class="row">
+        <div id="list_results">Satisfied: 85%<br>Neutral/Dissatisfied: 15%</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+</body>
+<script>
+    function moveSlider(){
+      // Just update all the text for all the sliders
+      const ids = ['inflight_wifi_service', 'ease_of_online_booking', 'food_and_drink', 'online_boarding','seat_comfort','inflight_entertainment',
+      'onboard_service','leg_room','baggage_handling','checkin_service','inflight_service','cleanliness','customer_type','travel_type','class_type'];
+      ids.forEach((id) => {
+        const value = $(`#${id}`).val();
+        $(`#${id}_value`).html(value);
+      });
+    
+      // Finally, process the model
+      process();
+    }
+    </script>
+</html>
